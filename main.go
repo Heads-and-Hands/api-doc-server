@@ -21,7 +21,10 @@ func getRoot() string {
 func main() {
 	http.HandleFunc("/", handler)
 	log.Println("Run and listen 8383")
-	http.ListenAndServe(":8383", nil)
+	err := http.ListenAndServe(":8383", nil)
+	if err != nil {
+		fmt.Printf("error during bootstrap server %s", err)
+	}
 }
 
 func handler(iWrt http.ResponseWriter, iReq *http.Request) {
