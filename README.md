@@ -6,4 +6,6 @@
 Сервер вернет нам файл по адресу /var/www/common-dir/test.server.handh.ru/index.html
 
 ### Сборка
-GOOS=linux GOARCH=amd64 go build -o api-doc-server
+```
+make build
+```
