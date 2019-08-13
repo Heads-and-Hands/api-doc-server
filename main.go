@@ -2,11 +2,11 @@ package main
 
 // Импортируем всё, что нам может понадобиться
 import (
-"fmt"
-"log"
-"net/http"
-"io/ioutil"
-"os"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
 	"regexp"
 )
 
@@ -30,17 +30,17 @@ func handler(iWrt http.ResponseWriter, iReq *http.Request) {
 		lGet = "index.html"
 	}
 
-	exp := "(.*):[:digit:]*"
+	const exp = "(.*):[:digit:]*"
 	r := regexp.MustCompile(exp)
 	host := r.FindString(iReq.Host)
-	if host != ""{
-		host = host[:len(host) - 1]
+	if host != "" {
+		host = host[:len(host)-1]
 	} else {
 		host = iReq.Host
 	}
 	log.Println("Host: " + host)
 
-	if host == ""  || host == "localhost" {
+	if host == "" || host == "localhost" {
 		lGet = getRoot() + lGet
 	} else {
 		lGet = getRoot() + host + "/" + lGet
@@ -53,11 +53,8 @@ func handler(iWrt http.ResponseWriter, iReq *http.Request) {
 func readFile(iFileName string) string {
 	log.Println("readFile: " + iFileName)
 	lData, err := ioutil.ReadFile(iFileName)
-	var lOut string
-	if !os.IsNotExist(err) {
-		lOut = string(lData)
-	} else {
-		lOut = "404"
+	if os.IsNotExist(err) {
+		return "404"
 	}
-	return lOut
+	return string(lData)
 }
