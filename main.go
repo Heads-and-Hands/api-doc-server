@@ -33,7 +33,11 @@ func handler(iWrt http.ResponseWriter, iReq *http.Request) {
 	exp := "(.*):[:digit:]*"
 	r := regexp.MustCompile(exp)
 	host := r.FindString(iReq.Host)
-	host = host[:len(host) - 1]
+	if host != ""{
+		host = host[:len(host) - 1]
+	} else {
+		host = iReq.Host
+	}
 	log.Println("Host: " + host)
 
 	if host == ""  || host == "localhost" {
